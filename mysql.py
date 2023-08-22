@@ -14,6 +14,9 @@ cursor = db.cursor()
 #val = ("John", "Highway21")
 #cursor.execute(sql, val)
 # execute SQL query using execute() method.
+insert = "INSERT INTO `appjedin_training`.`users`(`username`,`password`,`full_name`,`email`,`status`,`role_id`,`phone`,`createdAt`)VALUES(%s,%s,%s,%s,%s,%s,%s,SYSDATE())"
+values = ('python', 'Test1234', 'Python Test', 'python@test.com',1,1,'555-1212')
+cursor.execute(insert,values)
 cursor.execute("SELECT * FROM users")
 results = cursor.fetchall()
 for row in results:
@@ -22,3 +25,5 @@ for row in results:
 
 # disconnect from server
 db.close()
+
+
