@@ -1,22 +1,38 @@
-# IMPORT LIBRARIES
 from bs4 import BeautifulSoup
 import requests
+import csv
 
-# REQUEST WEBPAGE AND STORE IT AS A VARIABLE
-page_to_scrape = requests.get("http://localhost:8080/test.html")
+source = requests.get('http://localhost:8080/test.html')
+# print(source.text)
+soup = BeautifulSoup(source.text, "html.parser")
 
-# USE BEAUTIFULSOUP TO PARSE THE HTML AND STORE IT AS A VARIABLE
-soup = BeautifulSoup(page_to_scrape.text, 'html.parser')
+csv_file = open('cms_scrape.csv', 'w')
 
-# FIND ALL THE ITEMS IN THE PAGE WITH A CLASS ATTRIBUTE OF 'TEXT'
-# AND STORE THE LIST AS A VARIABLE
-quotes = soup.findAll('span', attrs={'class': 'text'})
+csv_writer = csv.writer(csv_file)
+csv_writer.writerow(['headline', 'summary', 'video_link'])
 
-# FIND ALL THE ITEMS IN THE PAGE WITH A CLASS ATTRIBUTE OF 'AUTHOR'
-# AND STORE THE LIST AS A VARIABLE
-authors = soup.findAll('small', attrs={"class": "author"})
+for article in soup.find_all('body'):
+    headline = article.h2.a.text
+    print("HEAD")
+    print(headline)
 
-# LOOP THROUGH BOTH LISTS USING THE 'ZIP' FUNCTION
-# AND PRINT AND FORMAT THE RESULTS
-for quote, author in zip(quotes, authors):
-    print(quote.text + "-" + author.text)
+    summary = article.find('div', class_='entry-content').p.text
+    print(summary)
+
+    try:
+        vid_src = article.find('iframe', class_='youtube-player')['src']
+
+        vid_id = vid_src.split('/')[4]
+        vid_id = vid_id.split('?')[0]
+
+        yt_link = f'https://youtube.com/watch?v={vid_id}'
+    except Exception as e:
+        yt_link = None
+
+    print(yt_link)
+
+    print()
+
+    csv_writer.writerow([headline, summary, yt_link])
+
+csv_file.close()
