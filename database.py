@@ -10,7 +10,7 @@ class Database:
     def add_movie(self, title, year):
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
-            #title=";truncate table users;" # SQL Injection
+            # title=";truncate table users;" # SQL Injection
             query = "INSERT INTO MOVIE (TITLE, YR) VALUES (?, ?)"
             cursor.execute(query, [title, year])
             connection.commit()
@@ -47,17 +47,18 @@ class Database:
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
             query = "SELECT ID, TITLE, YR FROM MOVIE ORDER BY ID"
-            print (query)
+            print(query)
             cursor.execute(query)
             for movie_key, title, year in cursor:
-                
+
                 movies.append((movie_key, title, year))
         return movies
 
-print ("start")
+
+print("start")
 db = Database("./movies.sqlite")
 #db.add_movie("Batman", 1997)
-rows=db.get_movies()
+rows = db.get_movies()
 for row in rows:
     print(row[1])
-print ("end")
+print("end")
