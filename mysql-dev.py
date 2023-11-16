@@ -9,6 +9,7 @@ def getConn():
     db = MySQLdb.connect(host="localhost", user="root",
                      password="Jedi2023", database="dev")
     return db
+
 def getLogs():
     # prepare a cursor object using cursor() method
     db=getConn()
@@ -25,6 +26,7 @@ def getLogs():
 
 # disconnect from server
     db.close()
+
 def getUsers():
     db=getConn()
     cursor = db.cursor()

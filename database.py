@@ -2,7 +2,6 @@ import sqlite3 as dbapi2
 
 from movie import Movie
 
-
 class Database:
     def __init__(self, dbfile):
         self.dbfile = dbfile
