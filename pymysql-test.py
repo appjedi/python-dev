@@ -1,13 +1,12 @@
-import mysql.cursors
+import pymysql
 
 # Connect to the database
-connection = mysql.connect(host='localhost',
-                           user='root',
-                           password='root',
-                           database='test',
-                           port=8889,
-                           charset='utf8mb4',
-                           cursorclass=pymysql.cursors.DictCursor)
+connection = pymysql.connect(
+    host='localhost',
+    user='root',
+    password="Jedi2023",
+    db='dev',
+)
 
 with connection:
     with connection.cursor() as cursor:
