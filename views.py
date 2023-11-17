@@ -1,18 +1,23 @@
 from datetime import datetime
+from getpass import getuser
 
-from flask import current_app, render_template
+from flask import abort, current_app, redirect, render_template, request, url_for
+from pymongo import HASHED
+import forms
+from movie import Movie
+import database
 
 
 def home_page():
     today = datetime.today()
     day_name = today.strftime("%A")
-    return render_template("index.html", day=day_name)
+    return render_template("index.html", day=day_name, list=[1, 2, 3, 4])
 
 
 def movie_add_page():
     if not current_user.is_admin:
         abort(401)
-    form = MovieEditForm()
+    form = forms.MovieEditForm()
     if form.validate_on_submit():
         title = form.data["title"]
         year = form.data["year"]
@@ -28,6 +33,17 @@ def movie_page(movie_key):
     db = current_app.config["db"]
     movie = db.get_movie(movie_key)
     return render_template("movie.html", movie=movie)
+
+
+def movies_page2():
+    db = database.Database("./movies.sqlite")
+    # db.add_movie("Batman", 1997)
+    rows = db.get_movies()
+    # print(rows)
+    movies = []
+    for m in rows:
+        movies.append(Movie(m[1], m[2]))
+    return render_template("movies.html", movies=movies)
 
 
 def movies_page():
@@ -100,7 +116,7 @@ def movie_add_page():
 def movie_add_page():
     if not current_user.is_admin:
         abort(401)
-    form = MovieEditForm()
+    form = forms.MovieEditForm()
     if form.validate_on_submit():
         title = form.data["title"]
         year = form.data["year"]
@@ -143,13 +159,13 @@ def movie_edit_page(movie_key):
 
 
 def login_page():
-    form = LoginForm()
+    form = forms.LoginForm()
     if form.validate_on_submit():
         username = form.data["username"]
-        user = get_user(username)
+        user = getuser(username)
         if user is not None:
             password = form.data["password"]
-            if hasher.verify(password, user.password):
+            if HASHED.verify(password, user.password):
                 login_user(user)
                 flash("You have logged in.")
                 next_page = request.args.get("next", url_for("home_page"))
@@ -162,3 +178,11 @@ def logout_page():
     logout_user()
     flash("You have logged out.")
     return redirect(url_for("home_page"))
+
+
+def login_user(user):
+    print(user)
+
+
+def logout_user():
+    print("user logged out")

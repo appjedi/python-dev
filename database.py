@@ -2,6 +2,7 @@ import sqlite3 as dbapi2
 
 from movie import Movie
 
+
 class Database:
     def __init__(self, dbfile):
         self.dbfile = dbfile
@@ -46,7 +47,7 @@ class Database:
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
             query = "SELECT ID, TITLE, YR FROM MOVIE ORDER BY ID"
-            print(query)
+            # print(query)
             cursor.execute(query)
             for movie_key, title, year in cursor:
 
@@ -54,10 +55,11 @@ class Database:
         return movies
 
 
-print("start")
-db = Database("./movies.sqlite")
-#db.add_movie("Batman", 1997)
-rows = db.get_movies()
-for row in rows:
-    print(row[1])
-print("end")
+def test():
+    print("start")
+    db = Database("./movies.sqlite")
+    # db.add_movie("Batman", 1997)
+    rows = db.get_movies()
+    for row in rows:
+        print(row[1])
+    print("end")
