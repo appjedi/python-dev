@@ -15,7 +15,7 @@ def create_app():
     app.add_url_rule("/logout", view_func=views.logout_page)
 
     app.add_url_rule(
-        "/movies", view_func=views.movies_page, methods=["GET", "POST"]
+        "/movies", view_func=views.movies_page2, methods=["GET", "POST"]
     )
     app.add_url_rule("/movies/<int:movie_key>", view_func=views.movie_page)
     app.add_url_rule(
