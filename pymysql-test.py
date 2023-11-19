@@ -2,11 +2,11 @@ import pymysql
 
 # Connect to the database
 connection = pymysql.connect(
-    host='localhost',
-    user='root',
-    password="Jedi2023",
-    db='dev',
-)
+        host='localhost',
+        user='root',
+        password="Jedi2023",
+        db='dev',
+    )
 
 with connection:
     with connection.cursor() as cursor:

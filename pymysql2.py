@@ -11,7 +11,7 @@ def mysqlconnect():
     )
 
     cur = conn.cursor()
-    cur.execute("select @@version")
+    cur.execute("select * from users")
     output = cur.fetchall()
     print(output)
 
