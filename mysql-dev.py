@@ -6,7 +6,7 @@ import MySQLdb
 
 def getConn():
 #db = MySQLdb.connect(host="localhost",user="root",password="maria1",database="test")
-    db = MySQLdb.connect(host="localhost", user="root",
+    db = MySQLdb.connect(host="127.0.0.1", user="root",
                      password="Jedi2023", database="dev")
     return db
 

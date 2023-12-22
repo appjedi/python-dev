@@ -2,6 +2,7 @@ from datetime import datetime
 from flask import Flask, render_template, url_for, flash, redirect
 from flask_sqlalchemy import SQLAlchemy
 from forms import RegistrationForm, LoginForm
+import pymysql
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
@@ -71,14 +72,39 @@ def register():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    if form.validate_on_submit():
-        if form.email.data == 'admin@blog.com' and form.password.data == 'password':
+    if form.validate_on_submit(form.email.data, form.password.data):
+        user=login(form.email.data,form.password.data)
+        if user==None:
+            flash('Login Unsuccessful. Please check username and password', 'danger')
+
+        else:
             flash('You have been logged in!', 'success')
             return redirect(url_for('home'))
-        else:
-            flash('Login Unsuccessful. Please check username and password', 'danger')
+
     return render_template('login.html', title='Login', form=form)
 
+def login (username, password):
+
+def listUsers():
+    conn =mysqlconnect()
+    cur = conn.cursor()
+    cur.execute("select * from users")
+    users = cur.fetchall()
+    
+    # To close the connection
+    conn.close()
+    return users
+
+def mysqlconnect():
+    # To connect MySQL database
+    conn = pymysql.connect(
+        host='localhost',
+        user='root',
+        password="Jedi2023",
+        db='dev',
+    )
+    return conn
+    
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, flash, redirect
 from forms import RegistrationForm, LoginForm
-import pymysql
+import MySQLdb
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
@@ -19,26 +19,23 @@ posts = [
         'date_posted': 'April 21, 2018'
     }
 ]
-def mysqlconnect():
-    # To connect MySQL database
-    conn = pymysql.connect(
-        host='localhost',
-        user='root',
-        password="Jedi2023",
-        db='dev',
-    )
-    return conn
+def getConn():
+#db = MySQLdb.connect(host="localhost",user="root",password="maria1",database="test")
+    db = MySQLdb.connect(host="127.0.0.1", user="root",
+                     password="Jedi2023", database="dev")
+    return db
 
 def getUser (un, pw):
-    conn=mysqlconnect()
+    conn=getConn()
     cur = conn.cursor()
     cur.execute("select * from users WHERE username = %s AND password= %s", (un,pw))
     output = cur.fetchall()
     print(output)
     conn.close()
     return output
+
 def registerUser(un,pw):
-    conn=mysqlconnect()
+    conn=getConn()
     cur = conn.cursor()
     insert = "INSERT INTO users (username, password, role_id, status, createDt) VALUES(%s,%s,2,1,SYSDATE())"
     cur.execute(insert, (un,pw))
