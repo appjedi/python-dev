@@ -19,6 +19,7 @@ posts = [
         'date_posted': 'April 21, 2018'
     }
 ]
+
 def getConn():
 #db = MySQLdb.connect(host="localhost",user="root",password="maria1",database="test")
     db = MySQLdb.connect(host="127.0.0.1", user="root",
@@ -47,11 +48,9 @@ def registerUser(un,pw):
 def home():
     return render_template('home.html', posts=posts)
 
-
 @app.route("/about")
 def about():
     return render_template('about.html', title='About')
-
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -61,7 +60,6 @@ def register():
         flash(f'Account created for {form.username.data}!', 'success')
         return redirect(url_for('home'))
     return render_template('register.html', title='Register', form=form)
-
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
