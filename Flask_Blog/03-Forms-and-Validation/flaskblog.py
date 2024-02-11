@@ -43,6 +43,16 @@ def registerUser(un,pw):
     conn.commit()
     conn.close()
 
+@app.route("/users")
+def getUsers():
+    conn=getConn()
+    cur = conn.cursor()
+    cur.execute("select * from users")
+    output = cur.fetchall()
+    print(output)
+    conn.close()
+    return {'data': output}
+
 @app.route("/")
 @app.route("/home")
 def home():
