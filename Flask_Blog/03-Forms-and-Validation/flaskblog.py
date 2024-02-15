@@ -1,6 +1,9 @@
 from flask import Flask, render_template, url_for, flash, redirect
 from forms import RegistrationForm, LoginForm
 import MySQLdb
+from flask import jsonify
+from mysqlaex import getAllUsers
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
@@ -51,7 +54,16 @@ def getUsers():
     output = cur.fetchall()
     print(output)
     conn.close()
-    return {'data': output}
+    return jsonify(output)
+    #return {'data': output}
+@app.route("/myusers")
+def getMyUsers():
+    users=getAllUsers()
+    return users;
+
+@app.route("/posts")
+def getPosts():
+    return posts
 
 @app.route("/")
 @app.route("/home")

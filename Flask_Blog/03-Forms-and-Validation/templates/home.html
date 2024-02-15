@@ -1,15 +1,24 @@
-{% extends "layout.html" %}
-{% block content %}
-    {% for post in posts %}
-        <article class="media content-section">
-          <div class="media-body">
-            <div class="article-metadata">
-              <a class="mr-2" href="#">{{ post.author }}</a>
-              <small class="text-muted">{{ post.date_posted }}</small>
-            </div>
-            <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
-            <p class="article-content">{{ post.content }}</p>
-          </div>
-        </article>
-    {% endfor %}
-{% endblock content %}
+{% extends "layout.html" %} {% block content %} {% for post in posts %}
+<article class="media content-section">
+  <div class="media-body">
+    <div class="article-metadata">
+      <a class="mr-2" href="#">{{ post.author }}</a>
+      <small class="text-muted">{{ post.date_posted }}</small>
+    </div>
+    <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
+    <p class="article-content">{{ post.content }}</p>
+  </div>
+</article>
+<script>
+  console.log("HOME");
+  const getUsers = async () => {
+    const resp = await fetch("http://127.0.0.1:5000/myusers");
+    const json = await resp.json();
+    console.log(json);
+    for (let u of json) {
+      console.log(u);
+    }
+  };
+  getUsers();
+</script>
+{% endfor %} {% endblock content %}
