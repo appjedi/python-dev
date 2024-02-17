@@ -1,6 +1,5 @@
 import pymysql
 
-
 def mysqlconnect():
     # To connect MySQL database
     conn = pymysql.connect(
@@ -13,8 +12,9 @@ def mysqlconnect():
     cur = conn.cursor()
     cur.execute("select * from users")
     output = cur.fetchall()
-    print(output)
-
+    #print(output)
+    for row in output:
+        print(row[1])
     # To close the connection
     conn.close()
 
