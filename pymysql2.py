@@ -18,7 +18,6 @@ def mysqlconnect():
     # To close the connection
     conn.close()
 
-
 # Driver Code
 if __name__ == "__main__":
     mysqlconnect()
