@@ -3,15 +3,15 @@
 import mysql.connector
 
 dataBase = mysql.connector.connect(
-    host="appdojo.net",
-    user="appjedin_sensei",
-    passwd="Sensei2022!"
+    host="localhost",
+    user="rpoot",
+    passwd="test!"
 )
 
 
 def get_users():
     cursorObject = dataBase.cursor()
-    query = "SELECT * FROM appjedin_training.users"
+    query = "SELECT * FROM users"
     cursorObject.execute(query)
 
     myresult = cursorObject.fetchall()

@@ -5,7 +5,7 @@ def mysqlconnect():
     conn = pymysql.connect(
         host='localhost',
         user='root',
-        password="Jedi2023",
+        password="test",
         db='dev',
     )
 
