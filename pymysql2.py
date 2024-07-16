@@ -70,4 +70,4 @@ def deleteUser():
     conn.commit()
 
 if __name__ == "__main__":
-    deleteUser()
+    getAllUsers()
