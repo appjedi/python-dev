@@ -18,7 +18,7 @@ def getAllUsers():
     output = cur.fetchall()
     #print(output)
     for row in output:
-        print(row)
+        print(row[1])
     # To close the connection
     conn.close()
 

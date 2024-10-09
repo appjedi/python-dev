@@ -59,21 +59,22 @@ def register():
 def getHash(word):
     hashed_password = bcrypt.generate_password_hash(word).decode('utf-8')
 
-@app.route("/user/<un>", methods=['GET'])
-def getUserTest(un):
-    user=getUser(un)
-    print ("USER",user)
-    session['user']=un
-    g.user=un
-    return user
-
-@app.route("/getuser", methods=['GET'])
-def getSessionTest():
-    user=session['user']
-    #user=g.user
-    print ("USER",user)
+@app.route("/user", methods=['GET'])
+def getUserTest():
+    #user=getUser(un)
+    un=session['user']
+    print ("USER",un)
     
-    return user
+    
+    return un
+@app.route("/user/<un>", methods=['GET'])
+def setUserTest(un):
+
+    session['user']=un
+    #user=g.user
+    print ("USER",un)
+    
+    return un
 
 def getUser(un):
     for user in users:
