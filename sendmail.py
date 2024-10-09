@@ -23,9 +23,12 @@ def send_email(to, subject, body):
     server.sendmail(user, to, message)
     server.quit()
 
-def getUsers():
+def sendToUsers():
+    subject=input("Subject: ")
+    body =input ("Message:")
     cursor = conn.execute("SELECT * from users")
     for row in cursor:
-        send_email(row[5], 'Python Testing', 'Hello  from Python')
+        print (f"Sending email to {row[5]}")
+        send_email(row[5], subject, body)
 
-getUsers()
+sendToUsers()
