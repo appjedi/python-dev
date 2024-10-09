@@ -10,12 +10,13 @@ import sqlite3
 conn = sqlite3.connect('data.db')
 
 def send_email(to, subject, body):
-    user="timlinator@gmail.com"
+    user="appdojo.net@gmail.com"
     pw="nwhx npae szit giqk"
+    appDojoPW="uovy zaeu yxyu sbps"
 
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.starttls()
-    server.login(user, pw)
+    server.login(user, appDojoPW)
 
     message = f"Subject: {subject}\n\n{body}"
 
