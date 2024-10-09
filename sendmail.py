@@ -12,7 +12,6 @@ conn = sqlite3.connect('data.db')
 def send_email(to, subject, body):
     user="timlinator@gmail.com"
     pw="nwhx npae szit giqk"
-    
 
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.starttls()
