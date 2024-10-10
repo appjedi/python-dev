@@ -10,23 +10,25 @@ import sqlite3
 conn = sqlite3.connect('data.db')
 
 def send_email(to, subject, body):
-    user="timlinator@gmail.com"
+    user="appdojo.net@gmail.com"
     pw="nwhx npae szit giqk"
-
-    
+    appDojoPW="uovy zaeu yxyu sbps"
 
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.starttls()
-    server.login(user, pw)
+    server.login(user, appDojoPW)
 
     message = f"Subject: {subject}\n\n{body}"
 
     server.sendmail(user, to, message)
     server.quit()
 
-def getUsers():
+def sendToUsers():
+    subject=input("Subject: ")
+    body =input ("Message:")
     cursor = conn.execute("SELECT * from users")
     for row in cursor:
-        send_email(row[5], 'Python Testing', 'Hello from Python')
+        print (f"Sending email to {row[5]}")
+        send_email(row[5], subject, body)
 
-getUsers()
+sendToUsers()
