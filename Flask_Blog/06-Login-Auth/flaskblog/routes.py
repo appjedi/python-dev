@@ -26,9 +26,20 @@ users =[
         'is_active':True,
         'remember':True
     }
+   
 ]
-
-    
+users.append( {
+        'email':'tester@test.com',
+        'password':'$2b$12$7DVk/HiN6HfjPgh3/DXPKeTRDxvWWJaUzYppHycRwZsZDTxWNcc8K',
+        'is_active':False,
+        'remember':False
+})
+users.append( {
+        'email':'bob@test.com',
+        'password':'$2b$12$7DVk/HiN6HfjPgh3/DXPKeTRDxvWWJaUzYppHycRwZsZDTxWNcc8K',
+        'is_active':False,
+        'remember':False
+})
 @app.route("/")
 @app.route("/home")
 def home():
@@ -75,7 +86,14 @@ def setUserTest(un):
     print ("USER",un)
     
     return un
+@app.route("/users", methods=['GET'])
+def getUsers():
 
+    #session['user']=un
+    #user=g.user
+    
+    
+    return users
 def getUser(un):
     for user in users:
         if(user['email']==un):
