@@ -26,7 +26,6 @@ users =[
         'is_active':True,
         'remember':True
     }
-   
 ]
 users.append( {
         'email':'tester@test.com',
