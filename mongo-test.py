@@ -5,7 +5,7 @@ client = MongoClient(MONGO_URL)
 
 mydatabase = client['test']
 
-mycollection=mydatabase['users']
+users=mydatabase['users']
 
 
 newUser ={
@@ -22,8 +22,8 @@ filter = { 'username': 'python3' }
  
 # Values to be updated.
 newvalues = { "$set": { 'favorites': [1,2,3] } }
-#mycollection.update_one(filter, newvalues)
-#mycollection.insert_one(newUser)
+#users.update_one(filter, newvalues)
+#users.insert_one(newUser)
 
-for row in mycollection.find():
-    print(row)
+for user in users.find():
+    print(user)
