@@ -8,7 +8,10 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
-
+with open(".env", 'r') as file:
+    db_conn_str = file.read()
+db_conn_arr = db_conn_str.split("~")
+print("db_conn_str:",db_conn_arr)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -113,13 +116,12 @@ def listUsers():
 def mysqlconnect():
     # To connect MySQL database
     conn = pymysql.connect(
-        host='localhost',
-        user='root',
-        password="Jedi2023",
-        db='dev',
+        host=db_conn_arr[0],
+        user=db_conn_arr[1],
+        password=db_conn_arr[2],
+        db=db_conn_arr[3],
     )
     return conn
-    
 
 if __name__ == '__main__':
     app.run(debug=True)
