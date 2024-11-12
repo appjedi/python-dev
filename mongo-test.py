@@ -25,5 +25,5 @@ newvalues = { "$set": { 'favorites': [1,2,3] } }
 mycollection.update_one(filter, newvalues)
 #mycollection.insert_one(newUser)
 
-for i in mycollection.find():
-    print(i)
+for row in mycollection.find():
+    print(row)
