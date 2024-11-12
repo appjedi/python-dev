@@ -9,8 +9,15 @@ app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
 with open(".env", 'r') as file:
-    db_conn_str = file.read()
-db_conn_arr = db_conn_str.split("~")
+    env_data = file.read()
+envValues=env_data.split("\n")
+ENV_KEY_VALUES={}
+for row in envValues:
+    keyValue=row.split("=")
+    ENV_KEY_VALUES[keyValue[0]]=keyValue[1]
+print (ENV_KEY_VALUES)
+
+db_conn_arr = ENV_KEY_VALUES['PROD_DB'].split("~")
 print("db_conn_str:",db_conn_arr)
 
 class User(db.Model):
