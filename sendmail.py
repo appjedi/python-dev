@@ -39,5 +39,6 @@ def getUsers():
         users.append(user)
 
     return users
+
 print(getUsers())     
 #sendToUsers()
