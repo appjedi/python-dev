@@ -22,7 +22,7 @@ filter = { 'username': 'python3' }
  
 # Values to be updated.
 newvalues = { "$set": { 'favorites': [1,2,3] } }
-mycollection.update_one(filter, newvalues)
+#mycollection.update_one(filter, newvalues)
 #mycollection.insert_one(newUser)
 
 for row in mycollection.find():
