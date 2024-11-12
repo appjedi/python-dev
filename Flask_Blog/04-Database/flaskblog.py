@@ -72,6 +72,7 @@ def register():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    print ("login:", form.email.data, form.password.data)
     if form.validate_on_submit(form.email.data, form.password.data):
         user=login(form.email.data,form.password.data)
         if user==None:
@@ -83,17 +84,20 @@ def login():
 
     return render_template('login.html', title='Login', form=form)
 
-def login (username, password):
-
+#def login (username, password):
+@app.route("/api/users", methods=['GET'])
 def listUsers():
     conn =mysqlconnect()
     cur = conn.cursor()
     cur.execute("select * from users")
     users = cur.fetchall()
-    
+    print ("users:",users)
+    userList=[]
+    for user in users:
+        userList.append({"username": user[1], "email": user[2]})
     # To close the connection
     conn.close()
-    return users
+    return userList
 
 def mysqlconnect():
     # To connect MySQL database
