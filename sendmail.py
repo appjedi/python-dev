@@ -30,6 +30,7 @@ def sendToUsers():
     for row in cursor:
         print (f"Sending email to {row[5]}")
         send_email(row[5], subject, body)
+
 def getUsers():
     users=[]
     cursor = conn.execute("SELECT * from users")
