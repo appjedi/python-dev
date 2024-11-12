@@ -73,7 +73,7 @@ def register():
 def login():
     form = LoginForm()
     print ("login:", form.email.data, form.password.data)
-    if form.validate_on_submit(form.email.data, form.password.data):
+    if form.validate_on_submit():
         user=login(form.email.data,form.password.data)
         if user==None:
             flash('Login Unsuccessful. Please check username and password', 'danger')
@@ -84,7 +84,18 @@ def login():
 
     return render_template('login.html', title='Login', form=form)
 
-#def login (username, password):
+def login (username, password):
+    conn = mysqlconnect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM users WHERE username=%s AND password=%s", (username, password))
+    row = cur.fetchone()
+    print("fetch row:",row)
+    user = {'id': row[0], 'username': row[1], 'roleId': row[3], 'status': row[4]}
+    print ("user:", user)
+
+    # To close the connection
+    conn.close()
+    return user
 @app.route("/api/users", methods=['GET'])
 def listUsers():
     conn =mysqlconnect()
