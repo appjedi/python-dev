@@ -30,5 +30,14 @@ def sendToUsers():
     for row in cursor:
         print (f"Sending email to {row[5]}")
         send_email(row[5], subject, body)
+def getUsers():
+    users=[]
+    cursor = conn.execute("SELECT * from users")
+    for row in cursor:
+        #print (row)
+        user ={'id':row[0], 'username':row[1],'email':row[5], 'roleId':row[3], 'status':row[4], 'created':row[6]}
+        users.append(user)
 
-sendToUsers()
+    return users
+print(getUsers())     
+#sendToUsers()
