@@ -8,13 +8,20 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
-with open(".env", 'r') as file:
-    env_data = file.read()
-envValues=env_data.split("\n")
-ENV_KEY_VALUES={}
-for row in envValues:
-    keyValue=row.split("=")
-    ENV_KEY_VALUES[keyValue[0]]=keyValue[1]
+
+
+def getEnvValues():
+    with open(".env", 'r') as file:
+        env_data = file.read()
+    envValues=env_data.split("\n")
+    values={}
+    for row in envValues:
+        keyValue=row.split("=")
+        values[keyValue[0]]=keyValue[1]
+    return values
+ENV_KEY_VALUES=getEnvValues()
+
+
 print (ENV_KEY_VALUES)
 
 db_conn_arr = ENV_KEY_VALUES['PROD_DB'].split("~")
