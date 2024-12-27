@@ -4,7 +4,10 @@ from movie import Movie
 
 
 class Database:
+    dbfile=None
+    dbName="test"
     def __init__(self, dbfile):
+        print ("dbName:",self.dbName)
         self.dbfile = dbfile
 
     def add_movie(self, title, year):
@@ -56,7 +59,7 @@ class Database:
 
 
 def test():
-    print("start")
+    #print("start")
     db = Database("./movies.sqlite")
     # db.add_movie("Batman", 1997)
     rows = db.get_movies()
