@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import pymysql
 
 # Connect to the database
-
+# to run in virtualenv: https://sentry.io/answers/modulenotfounderror-when-working-with-fastapi-in-python/
 import os
 import uvicorn
 from pydantic import BaseModel
@@ -39,19 +39,6 @@ class User(BaseModel):
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
-
-@app.get("/demo")
-async def demo():
-    results = await query("SELECT * FROM turnkey-charter-352313.appjedi_store.quizes")
-
-    return results
-
-@app.get("/sp-demo/{orderBy}")
-async def demo(orderBy):
-    qry=f"call appjedi_store.ups_python_demo ({orderBy})" 
-    results = await query(qry)
-
-    return results
 
 @app.get("/api/users")
 async def getUsers ():
