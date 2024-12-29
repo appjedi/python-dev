@@ -28,7 +28,7 @@ app.add_middleware(
 )
 
 class User(BaseModel):
-    user_id: str
+    user_id: int
     username: str
     password: str
     created: str
@@ -39,7 +39,14 @@ class User(BaseModel):
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
-
+@app.post("/api/user")
+async def postUser (user:User):
+    qry="call usp_user_save (%s,%s,%s,%s,%s)" 
+    values = [user.user_id, user.username, user.password,user.role_id, user.status]
+    print ("values:",values)
+    resp=await query(qry, values)
+    print ("resp:",resp[0])
+    return {"status":200,"userId":resp[0][0],"message":resp[0][1] }
 @app.get("/api/users")
 async def getUsers ():
     results = await query("SELECT * FROM users")
@@ -67,6 +74,8 @@ async def query (sql, values=None):
     else:
         cursor.execute(sql)
     results = cursor.fetchall()
+    cursor.close()
+    conn.commit()
     print(results)
     return results
 
