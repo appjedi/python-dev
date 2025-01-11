@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import pymysql
 
 # Connect to the database
-
+# to run in virtualenv: https://sentry.io/answers/modulenotfounderror-when-working-with-fastapi-in-python/
 import os
 import uvicorn
 from pydantic import BaseModel
@@ -28,7 +28,7 @@ app.add_middleware(
 )
 
 class User(BaseModel):
-    user_id: str
+    user_id: int
     username: str
     password: str
     created: str
@@ -39,20 +39,36 @@ class User(BaseModel):
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
+@app.post("/api/user")
+async def postUser (user:User):
+    qry="call usp_user_save (%s,%s,%s,%s,%s)" 
+    values = [user.user_id, user.username, user.password,user.role_id, user.status]
+    print ("values:",values)
+    resp=await query(qry, values)
+    print ("resp:",resp[0])
+    return {"status":200,"userId":resp[0][0],"message":resp[0][1] }
 
-@app.get("/demo")
-async def demo():
-    results = await query("SELECT * FROM turnkey-charter-352313.appjedi_store.quizes")
-
-    return results
-
-@app.get("/sp-demo/{orderBy}")
-async def demo(orderBy):
-    qry=f"call appjedi_store.ups_python_demo ({orderBy})" 
-    results = await query(qry)
-
-    return results
-
+@app.post("/api/auth")
+async def postUser (user:User):
+    print ("postUser called",user)
+    qry="call usp_user_auth (%s,%s)"
+    values = [user.username, user.password]
+    print ("values:",values)
+    resp=await query(qry, values)
+    print ("resp:",resp[0])
+    return {"status":200,"userId":resp[0][0],"message":resp[0][1] }
+@app.post("/api/hack")
+async def postUser (user:User): # YUCK
+    print ("postUser called",user)
+    sql= "select * from users where username='{0}' AND password='{1}'".format(user.username,user.password)
+    print ("SQL:",sql)
+    resp=await query(sql)
+    print ("resp:",resp)
+    if len(resp)>0:
+        return {"status":200,"userId":resp[0][0],"message":"success" }
+    else:
+        return {"status":401,"userId":0,"message":"invalid username or password" }
+    #return {"status":200,"userId":resp[0][0],"message":resp[0][1] }
 @app.get("/api/users")
 async def getUsers ():
     results = await query("SELECT * FROM users")
@@ -80,6 +96,8 @@ async def query (sql, values=None):
     else:
         cursor.execute(sql)
     results = cursor.fetchall()
+    cursor.close()
+    conn.commit()
     print(results)
     return results
 
@@ -88,7 +106,7 @@ def getConn():
         host='localhost',
         user='root',
         password="Jedi2023",
-        db='dev',
+        db='training',
     )
     return connection
 
