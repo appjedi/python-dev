@@ -4,14 +4,15 @@ from movie import Movie
 
 
 class Database:
-    dbfile=None
-    dbName="test"
+    __dbfile=None
+    __dbName="test"
     def __init__(self, dbfile):
-        print ("dbName:",self.dbName)
-        self.dbfile = dbfile
+        self.__dbfile = dbfile
+        print ("dbName:",self.__dbfile)
+
 
     def add_movie(self, title, year):
-        with dbapi2.connect(self.dbfile) as connection:
+        with dbapi2.connect(self.__dbfile) as connection:
             cursor = connection.cursor()
             # title=";truncate table users;" # SQL Injection
             query = "INSERT INTO MOVIE (TITLE, YR) VALUES (?, ?)"
@@ -21,14 +22,14 @@ class Database:
         return movie_key
 
     def update_movie(self, movie_key, movie):
-        with dbapi2.connect(self.dbfile) as connection:
+        with dbapi2.connect(self.__dbfile) as connection:
             cursor = connection.cursor()
             query = "UPDATE MOVIE SET TITLE = ?, YR = ? WHERE (ID = ?)"
             cursor.execute(query, (movie.title, movie.year, movie_key))
             connection.commit()
 
     def delete_movie(self, movie_key):
-        with dbapi2.connect(self.dbfile) as connection:
+        with dbapi2.connect(self.__dbfile) as connection:
             cursor = connection.cursor()
             query = "DELETE FROM MOVIE WHERE (ID = ?)"
             cursor.execute(query, (movie_key,))
@@ -36,7 +37,7 @@ class Database:
 
     def get_movie(self, movie_key):
         print("get_movie")
-        with dbapi2.connect(self.dbfile) as connection:
+        with dbapi2.connect(self.__dbfile) as connection:
             cursor = connection.cursor()
             query = "SELECT TITLE, YR FROM MOVIE WHERE (ID = ?)"
             cursor.execute(query, (movie_key,))
@@ -47,7 +48,7 @@ class Database:
     def get_movies(self):
         movies = []
         print("get_movies")
-        with dbapi2.connect(self.dbfile) as connection:
+        with dbapi2.connect(self.__dbfile) as connection:
             cursor = connection.cursor()
             query = "SELECT ID, TITLE, YR FROM MOVIE ORDER BY ID"
             # print(query)
@@ -57,10 +58,16 @@ class Database:
                 movies.append((movie_key, title, year))
         return movies
 
-
+    def get_dbname(self):
+        return self.__dbName
+    
+    def set_dbname(self, name):
+        self.__dbName=name
+    
 def test():
     #print("start")
     db = Database("./movies.sqlite")
+    print (db.get_dbname())
     # db.add_movie("Batman", 1997)
     rows = db.get_movies()
     for row in rows:
