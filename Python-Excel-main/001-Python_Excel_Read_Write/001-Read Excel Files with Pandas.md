@@ -2,7 +2,7 @@
 
 # Welcome to the Python Excel Series.
 
-**Video Tutorial:** https://youtu.be/bI68wnoINwc
+## Video Tutorial:** https://youtu.be/bI68wnoINwc
 
 #### **Difficulty:** Beginner
 
@@ -10,7 +10,7 @@
 
 ### Code Examples
 
-```python
+## python
 # ex1.0.1 DataFrame Creation
 import pandas as pd
 
@@ -19,9 +19,7 @@ csv_file = 'books.csv'
 
 df = pd.read_excel(excel_file)
 dff = pd.read_csv(csv_file)
-```
 
-```python
 # ex1.0.1 Excel Sheet to Dict, CSV and JSON
 import pandas as pd
 
@@ -33,9 +31,7 @@ new_csv = df.to_csv(index=False)
 new_json = df.to_json()
 
 print(new_dict)
-```
 
-```python
 # ex1.0.2 read_excel() parameter values
 import pandas as pd
 
@@ -47,9 +43,7 @@ df = pd.read_excel(excel_file)
 # usecols=['title', 'authors']
 
 print(df.head(5))
-```
 
-```python
 # ex1.0.2 Inspect DataFrame
 import pandas as pd
 
@@ -65,9 +59,7 @@ print(df.tail(5))
 print(df.index)
 print(df.columns)
 print(df.dtypes)
-```
 
-```python
 # ex1.0.3 Selecting Data
 import pandas as pd
 
@@ -89,9 +81,7 @@ print(df['title'].head(5))
 print(df[['title','authors']].head(5))
 print(df.at[0, 'title'])
 print(df.loc[0:3, 'title':'authors'])
-```
 
-```python
 # ex1.0.4 Select Sheets
 import pandas as pd
 
@@ -108,9 +98,7 @@ df = pd.read_excel(excel_file, sheet_name=[0,1], nrows=5)
 # print(df)
 # Specify a sheet to use
 print(df[0].head(2))
-```
 
-```python
 # ex1.0.5 Working with all sheets
 import pandas as pd
 
@@ -122,4 +110,4 @@ df = pd.read_excel(excel_file, sheet_name=None)
 
 print(df['books_2'].head(5))
 
-```
+

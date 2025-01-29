@@ -1,9 +1,9 @@
-import pandas as pd
+import s as pd
 # **Video Tutorial: ** https: // youtu.be/bI68wnoINwc
 
 # **Difficulty:** Beginner
 
-# **Tags/Keywords:** Python, Excel, Pandas
+# **Tags/Keywords:** Python, Excel, s
 
 # Code Examples
 
