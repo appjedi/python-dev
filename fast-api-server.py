@@ -71,7 +71,7 @@ async def postUser (user:User): # YUCK
     #return {"status":200,"userId":resp[0][0],"message":resp[0][1] }
 @app.get("/api/users")
 async def getUsers ():
-    results = await query("SELECT * FROM users")
+    results = await query("SELECT * FROM view_users")
     rows=[]
     for result in results:
         row={
@@ -103,10 +103,10 @@ async def query (sql, values=None):
 
 def getConn():
     connection = pymysql.connect(
-        host='localhost',
-        user='root',
-        password="Jedi2023",
-        db='training',
+        host='127.0.0.1',
+        user='devuser',
+        password="Dev2025",
+        db='appjedin_student_temp',
     )
     return connection
 
