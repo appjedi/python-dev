@@ -12,7 +12,7 @@
 
 ## python
 # ex1.0.1 DataFrame Creation
-import pandas as pd
+import 001  s as pd
 
 excel_file = 'books.xlsx'
 csv_file = 'books.csv'

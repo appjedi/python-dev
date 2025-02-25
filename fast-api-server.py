@@ -78,6 +78,8 @@ async def getUsers ():
             'userId': result[0],
             'username': result[1],
             'password': result[2],
+
+            
             'roleId': result[3],
             'status': result[4],
             'created':result[5],
