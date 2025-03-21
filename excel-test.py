@@ -1,4 +1,4 @@
-import s as pd
+import pandas as pd
 # **Video Tutorial: ** https: // youtu.be/bI68wnoINwc
 
 # **Difficulty:** Beginner

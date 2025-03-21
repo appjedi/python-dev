@@ -3,10 +3,10 @@ import pymysql
 def mysqlconnect():
     # To connect MySQL database
     conn = pymysql.connect(
-        host='localhost',
-        user='root',
-        password="Jedi2023",
-        db='training',
+        host='appjedi.net',
+        user='appjedin_dba',
+        password="$Data2022",
+        db='appjedin_student_temp',
     )
 
     return  conn
