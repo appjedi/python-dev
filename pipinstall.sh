@@ -1,3 +1,3 @@
 python3 -m venv venv
 source venv/bin/activate
-pip install $1
+pip3 install $1
