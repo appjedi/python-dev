@@ -25,7 +25,7 @@ def query (sql):
 
 
 def main():
-    orderBy = input("order by")
+    #orderBy = input("order by")
    # qry=f"call appjedi_store.ups_python_demo ({orderBy})" 
     qry = "SELECT * FROM quizes"
     #qry="SELECT * FROM `turnkey-charter-352313.appjedi_store.quizes` ORDER BY quiz_id"
