@@ -7,7 +7,7 @@ connection = pymysql.connect(
         password="Jedi2023",
         db='dev',
     )
-def insertuser():
+def insertUser():
     with connection:
         with connection.cursor() as cursor:
             # Create a new record
