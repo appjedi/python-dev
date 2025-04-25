@@ -4,8 +4,8 @@ import pymysql
 connection = pymysql.connect(
         host='localhost',
         user='root',
-        password="Jedi2023",
-        db='dev',
+        password="",
+        db='test',
     )
 def insertUser():
     with connection:
@@ -32,6 +32,8 @@ def getUsers():
             # Read a single record
             sql = "SELECT * FROM `users`"
             cursor.execute(sql)
-            result = cursor.fetchone()
-            print(result)            
+            result = cursor.fetchall()
+            for row in result:
+                print(row)            
 getUsers()
+#insertUser()
