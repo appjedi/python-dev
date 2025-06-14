@@ -78,8 +78,6 @@ async def getUsers ():
             'userId': result[0],
             'username': result[1],
             'password': result[2],
-
-            
             'roleId': result[3],
             'status': result[4],
             'created':result[5],
@@ -88,7 +86,7 @@ async def getUsers ():
         rows.append(row)
     return rows
 
-
+connIndex=2
 async def query (sql, values=None):
     conn=getConn()
     cursor=conn.cursor()
@@ -104,13 +102,22 @@ async def query (sql, values=None):
     return results
 
 def getConn():
-    connection = pymysql.connect(
-        host='127.0.0.1',
-        user='devuser',
-        password="Dev2025",
-        db='appjedin_student_temp',
-    )
-    return connection
+    if connIndex == 1:
+        connection = pymysql.connect(
+            host='127.0.0.1',
+            user='devuser',
+            password="Dev2025",
+            db='appjedin_student_temp',
+        )
+        return connection
+    else:
+        connection = pymysql.connect(
+            host='appjedi.net',
+            user='appjedin_dba',
+            password="$Data2022",
+            db='appjedin_student_temp',
+        )
+        return connection
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=7001)
