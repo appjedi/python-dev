@@ -33,7 +33,7 @@ class User(BaseModel):
     password: str
     created: str
     role_id: int
-    status:int
+    status: int
 
 
 @app.get("/")
