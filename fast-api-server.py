@@ -108,6 +108,7 @@ def getConn():
             user='devuser',
             password="Dev2025",
             db='appjedin_student_temp',
+                ssl_disabled=True  # optional if no SSL
         )
         return connection
     else:
