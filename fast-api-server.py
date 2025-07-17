@@ -86,7 +86,7 @@ async def getUsers ():
         rows.append(row)
     return rows
 
-connIndex=2
+connIndex=1
 async def query (sql, values=None):
     conn=getConn()
     cursor=conn.cursor()
@@ -105,7 +105,7 @@ def getConn():
     if connIndex == 1:
         connection = pymysql.connect(
             host='127.0.0.1',
-            user='devuser',
+            user='devuser2',
             password="Dev2025",
             db='appjedin_student_temp',
                 ssl_disabled=True  # optional if no SSL
