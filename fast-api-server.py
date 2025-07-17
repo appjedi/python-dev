@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import pymysql
 
 # Connect to the database
 # to run in virtualenv: https://sentry.io/answers/modulenotfounderror-when-working-with-fastapi-in-python/
@@ -94,38 +93,5 @@ async def getUsers ():
     return rows
 
 connIndex=1
-async def query (sql, values=None):
-    conn=getConn()
-    cursor=conn.cursor()
-
-    if values!=None:
-        cursor.execute(sql, values)
-    else:
-        cursor.execute(sql)
-    results = cursor.fetchall()
-    cursor.close()
-    conn.commit()
-    print(results)
-    return results
-
-def getConn():
-    if connIndex == 1:
-        connection = pymysql.connect(
-            host='127.0.0.1',
-            user='devuser2',
-            password="Dev2025",
-            db='appjedin_student_temp',
-                ssl_disabled=True  # optional if no SSL
-        )
-        return connection
-    else:
-        connection = pymysql.connect(
-            host='appjedi.net',
-            user='appjedin_dba',
-            password="$Data2022",
-            db='appjedin_student_temp',
-        )
-        return connection
-
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=7001)

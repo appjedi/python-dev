@@ -25,5 +25,5 @@ class MySQLConn:
         results = cursor.fetchall()
         cursor.close()
         conn.commit()
-        print(results)
+        #print(results)
         return results
