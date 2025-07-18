@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import pymysql
 
 # Connect to the database
 # to run in virtualenv: https://sentry.io/answers/modulenotfounderror-when-working-with-fastapi-in-python/
@@ -9,13 +8,27 @@ import uvicorn
 from pydantic import BaseModel
 import time
 import datetime
-
+from mysql_conn import MySQLConn
 def current_milli_time():
     return round(time.time() * 1000)
 
 def getDateYYYYMMDD():
     return datetime.today().strftime('%Y-%m-%d')
 
+myConnLocal = {
+     'host':'127.0.0.1',
+    'user':'devuser2',
+    'password':"Dev2025",
+    'db':'appjedin_student_temp'
+}
+myConnLive = {
+     'host':'appdojo.net',
+    'user':'appjedin_dba',
+    'password':"$Data2022",
+    'db':'appjedin_student_temp'
+}
+
+db = MySQLConn(myConnLive)
 app = FastAPI()
 origins = ["*"]
 
@@ -34,6 +47,11 @@ class User(BaseModel):
     created: str
     role_id: int
     status: int
+class ContactUS(BaseModel):
+    contactId: int
+    name: str
+    email: str
+    message: str
 
 
 @app.get("/")
@@ -44,19 +62,27 @@ async def postUser (user:User):
     qry="call usp_user_save (%s,%s,%s,%s,%s)" 
     values = [user.user_id, user.username, user.password,user.role_id, user.status]
     print ("values:",values)
-    resp=await query(qry, values)
-    print ("resp:",resp[0])
-    return {"status":200,"userId":resp[0][0],"message":resp[0][1] }
-
+    resp=await db.query(qry, values)
+    print ("resp:",resp[0]) 
+    return {"status":200,"userId":resp[0][0],"message":resp[0][2] }
+@app.post("/api/contactus")
+async def postContactUs (contact:ContactUS):
+    qry="call usp_contact2_save (%s,%s,%s,%s,%s)" 
+    values = [contact.contactId, contact.name, contact.email, contact.message,0]
+    print ("postContactUs values:",values)
+    resp=await db.query(qry, values)
+    print ("resp:",resp[0]) 
+    return {"status":200,"contactId":resp[0][0],"message":resp[0][2] }
 @app.post("/api/auth")
 async def postUser (user:User):
     print ("postUser called",user)
     qry="call usp_user_auth (%s,%s)"
     values = [user.username, user.password]
     print ("values:",values)
-    resp=await query(qry, values)
+    resp=await db.query(qry, values)
     print ("resp:",resp[0])
     return {"status":200,"userId":resp[0][0],"message":resp[0][1] }
+
 @app.post("/api/hack")
 async def postUser (user:User): # YUCK
     print ("postUser called",user)
@@ -71,7 +97,7 @@ async def postUser (user:User): # YUCK
     #return {"status":200,"userId":resp[0][0],"message":resp[0][1] }
 @app.get("/api/users")
 async def getUsers ():
-    results = await query("SELECT * FROM view_users")
+    results = await db.query("SELECT * FROM view_users",[])
     rows=[]
     for result in results:
         row={
@@ -86,38 +112,6 @@ async def getUsers ():
         rows.append(row)
     return rows
 
-connIndex=2
-async def query (sql, values=None):
-    conn=getConn()
-    cursor=conn.cursor()
-
-    if values!=None:
-        cursor.execute(sql, values)
-    else:
-        cursor.execute(sql)
-    results = cursor.fetchall()
-    cursor.close()
-    conn.commit()
-    print(results)
-    return results
-
-def getConn():
-    if connIndex == 1:
-        connection = pymysql.connect(
-            host='127.0.0.1',
-            user='devuser',
-            password="Dev2025",
-            db='appjedin_student_temp',
-        )
-        return connection
-    else:
-        connection = pymysql.connect(
-            host='appjedi.net',
-            user='appjedin_dba',
-            password="$Data2022",
-            db='appjedin_student_temp',
-        )
-        return connection
-
+connIndex=1
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=7001)
