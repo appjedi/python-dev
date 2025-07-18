@@ -14,6 +14,7 @@ def current_milli_time():
 
 def getDateYYYYMMDD():
     return datetime.today().strftime('%Y-%m-%d')
+
 myConnLocal = {
      'host':'127.0.0.1',
     'user':'devuser2',
