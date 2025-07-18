@@ -39,6 +39,11 @@ class User(BaseModel):
     created: str
     role_id: int
     status: int
+class ContactUS(BaseModel):
+    contactId: int
+    name: str
+    email: str
+    message: str
 
 
 @app.get("/")
@@ -52,7 +57,14 @@ async def postUser (user:User):
     resp=await db.query(qry, values)
     print ("resp:",resp[0]) 
     return {"status":200,"userId":resp[0][0],"message":resp[0][2] }
-
+@app.post("/api/contactus")
+async def postContactUs (contact:ContactUS):
+    qry="call usp_contact_save (%s,%s,%s,%s,%s)" 
+    values = [contact.contactId, contact.name, contact.email, contact.message,0]
+    print ("postContactUs values:",values)
+    resp=await db.query(qry, values)
+    print ("resp:",resp[0]) 
+    return {"status":200,"contactId":resp[0][0],"message":resp[0][2] }
 @app.post("/api/auth")
 async def postUser (user:User):
     print ("postUser called",user)
