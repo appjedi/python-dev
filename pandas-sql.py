@@ -24,10 +24,10 @@ def MySQLEx():
 def SQLAlchemyEx():
 
     # Create engine string
-    engine = create_engine("mysql+pymysql://root:Jedi2023@localhost:3306/appjedin_timslist")
+    engine = create_engine("mysql+pymysql://root@localhost:3306/test")
 
     # Query
-    query = "SELECT * FROM transactions"
+    query = "SELECT * FROM users"
     df = pd.read_sql(query, engine)
     print(df)
 
