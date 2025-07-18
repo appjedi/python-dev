@@ -14,13 +14,20 @@ def current_milli_time():
 
 def getDateYYYYMMDD():
     return datetime.today().strftime('%Y-%m-%d')
-myConn = {
+myConnLocal = {
      'host':'127.0.0.1',
     'user':'devuser2',
     'password':"Dev2025",
     'db':'appjedin_student_temp'
 }
-db = MySQLConn(myConn)
+myConnLive = {
+     'host':'appdojo.net',
+    'user':'appjedin_dba',
+    'password':"$Data2022",
+    'db':'appjedin_student_temp'
+}
+
+db = MySQLConn(myConnLive)
 app = FastAPI()
 origins = ["*"]
 
@@ -59,7 +66,7 @@ async def postUser (user:User):
     return {"status":200,"userId":resp[0][0],"message":resp[0][2] }
 @app.post("/api/contactus")
 async def postContactUs (contact:ContactUS):
-    qry="call usp_contact_save (%s,%s,%s,%s,%s)" 
+    qry="call usp_contact2_save (%s,%s,%s,%s,%s)" 
     values = [contact.contactId, contact.name, contact.email, contact.message,0]
     print ("postContactUs values:",values)
     resp=await db.query(qry, values)
