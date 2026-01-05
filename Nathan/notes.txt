@@ -1,0 +1,27 @@
+Mom email: Kanghyusccec@gmail.com
+email: 29stu177@lexingtonma.org
+
+Write a program to prompt user for student name and grade.
+Add name and grade to a list
+do this in a while loop prompting the user to add another grade.
+
+Enter student name: John Smith
+Enter test score: 82
+Add another? (y/n):
+    -- If use enters "y" prompt for another grade.
+
+write a method to translate numeric grade ito letter grade.
+def letter_grade(score):
+    # this will have to be implemented using an if statement.
+
+After user enters "n" use for loop to iterate list to
+print name and grade.
+Print the average grade.
+
+--- Student Report ---
+John Smith : 82 : B
+Alice Jones: 95 : A
+Bob Carter : 67 : D
+
+
+If you have questions email me.
