@@ -6,7 +6,7 @@ try:
     connection = mysql.connector.connect(
         host='localhost',
         user='root',
-        password='Jedi2023',
+        password='$Data2026',
         database='appjedin_student_temp'
     )
     
@@ -17,7 +17,7 @@ try:
         cursor = connection.cursor()
         
         # Execute a query
-        cursor.execute("SELECT * FROM view_customer_summary")
+        cursor.execute("SELECT * FROM users")
         
         # Fetch all results
         results = cursor.fetchall()

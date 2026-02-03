@@ -17,14 +17,8 @@ def getDateYYYYMMDD():
 
 myConnLocal = {
      'host':'127.0.0.1',
-    'user':'devuser2',
-    'password':"Dev2025",
-    'db':'appjedin_student_temp'
-}
-myConnLive = {
-     'host':'appdojo.net',
-    'user':'appjedin_dba',
-    'password':"$Data2022",
+    'user':'appuser',
+    'password':"StrongPassword!",
     'db':'appjedin_student_temp'
 }
 
