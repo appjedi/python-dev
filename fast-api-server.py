@@ -17,8 +17,8 @@ def getDateYYYYMMDD():
 
 myConnLocal = {
      'host':'127.0.0.1',
-    'user':'appuser',
-    'password':"StrongPassword!",
+    'user':'root',
+    'password':"Jedi2023",
     'db':'appjedin_student_temp'
 }
 
@@ -43,17 +43,20 @@ class User(BaseModel):
     status: int
 class ContactUS(BaseModel):
     contactId: int
-    name: str
+    fullName: str
     email: str
+    phone: str
     message: str
 
-
+class Auth(BaseModel):
+    username: str
+    password: str
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
 @app.post("/api/user")
 async def postUser (user:User):
-    qry="call usp_user_save (%s,%s,%s,%s,%s)" 
+    qry="call usp_user_save (%s,%s,%s,%s,%s)"
     values = [user.user_id, user.username, user.password,user.role_id, user.status]
     print ("values:",values)
     resp=await db.query(qry, values)
@@ -61,14 +64,15 @@ async def postUser (user:User):
     return {"status":200,"userId":resp[0][0],"message":resp[0][2] }
 @app.post("/api/contactus")
 async def postContactUs (contact:ContactUS):
-    qry="call usp_contact2_save (%s,%s,%s,%s,%s)" 
-    values = [contact.contactId, contact.name, contact.email, contact.message,0]
+    print("postContactUs")
+    qry="call usp_contact2_save (%s,%s,%s,%s,%s,%s)"
+    values = [contact.contactId, contact.fullName, contact.email, contact.phone, contact.message,0]
     print ("postContactUs values:",values)
     resp=await db.query(qry, values)
     print ("resp:",resp[0]) 
     return {"status":200,"contactId":resp[0][0],"message":resp[0][2] }
 @app.post("/api/auth")
-async def authUser (user:User):
+async def authUser (user:Auth):
     print ("postUser called",user)
     qry="call usp_user_auth (%s,%s)"
     values = [user.username, user.password]
