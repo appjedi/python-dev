@@ -9,6 +9,7 @@ from pydantic import BaseModel
 import time
 import datetime
 from mysql_conn import MySQLConn
+from entities import User, ContactUS, Auth
 def current_milli_time():
     return round(time.time() * 1000)
 
@@ -34,23 +35,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-class User(BaseModel):
-    user_id: int
-    username: str
-    password: str
-    created: str
-    role_id: int
-    status: int
-class ContactUS(BaseModel):
-    contactId: int
-    fullName: str
-    email: str
-    phone: str
-    message: str
-
-class Auth(BaseModel):
-    username: str
-    password: str
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
