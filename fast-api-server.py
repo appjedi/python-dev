@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
+from pathlib import Path
 # Connect to the database
 # to run in virtualenv: https://sentry.io/answers/modulenotfounderror-when-working-with-fastapi-in-python/
 import os
@@ -19,14 +19,14 @@ def getDateYYYYMMDD():
 myConnLocal = {
      'host':'127.0.0.1',
     'user':'root',
-    'password':"Jedi2023",
+    'password':"$Data2026",
     'db':'appjedin_student_temp'
 }
 
 db = MySQLConn(myConnLocal)
 app = FastAPI()
 origins = ["*"]
-
+folder = Path('.')
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -38,6 +38,16 @@ app.add_middleware(
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
+@app.get("/files")
+async def files():
+    files = [f.name for f in folder.iterdir() if f.is_file()]
+    print(files)
+    return files
+@app.get("/file/{fn}")
+async def file(fn):
+    with open(fn, 'r', encoding='utf-8') as f:
+        content = f.read()
+        return content
 @app.post("/api/user")
 async def postUser (user:User):
     qry="call usp_user_save (%s,%s,%s,%s,%s)"
@@ -55,6 +65,7 @@ async def postContactUs (contact:ContactUS):
     resp=await db.query(qry, values)
     print ("resp:",resp[0]) 
     return {"status":200,"contactId":resp[0][0],"message":resp[0][2] }
+
 @app.post("/api/auth")
 async def authUser (user:Auth):
     print ("postUser called",user)
