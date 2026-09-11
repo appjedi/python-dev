@@ -38,16 +38,24 @@ app.add_middleware(
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
+
 @app.get("/files")
 async def files():
     files = [f.name for f in folder.iterdir() if f.is_file()]
     print(files)
     return files
+
 @app.get("/file/{fn}")
 async def file(fn):
     with open(fn, 'r', encoding='utf-8') as f:
         content = f.read()
         return content
+
+@app.get("/prompt/{text}")
+async def file(text):
+    print("prompt:",text)
+    return {"prompt":text}
+
 @app.post("/api/user")
 async def postUser (user:User):
     qry="call usp_user_save (%s,%s,%s,%s,%s)"
