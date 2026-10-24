@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
 # Connect to the database
@@ -16,13 +16,18 @@ def current_milli_time():
 def getDateYYYYMMDD():
     return datetime.today().strftime('%Y-%m-%d')
 
-myConnLocal = {
+myConnLocalASUS = {
      'host':'127.0.0.1',
     'user':'root',
     'password':"$Data2026",
     'db':'appjedin_student_temp'
 }
-
+myConnLocal = {
+     'host':'localhost',
+    'user':'root',
+    'password':"Jedi2023",
+    'db':'appjedin_student_temp'
+}
 db = MySQLConn(myConnLocal)
 app = FastAPI()
 origins = ["*"]
@@ -56,6 +61,11 @@ async def file(text):
     print("prompt:",text)
     return {"prompt":text}
 
+@app.post("/api/test")
+async def postTest (request:Request):
+    data = await request.json()
+    values = [data['user_id'], data['username'], data['password'], data['role_id'], data['status']]
+    return {"status":200,"userId":1,"message":"User saved successfully", "values":values}
 @app.post("/api/user")
 async def postUser (user:User):
     qry="call usp_user_save (%s,%s,%s,%s,%s)"
@@ -84,8 +94,6 @@ async def authUser (user:Auth):
     print ("resp:",resp[0])
     return {"status":200,"userId":resp[0][0],"message":resp[0][1] }
 
-
-    #return {"status":200,"userId":resp[0][0],"message":resp[0][1] }
 @app.get("/api/users")
 async def getUsers ():
     results = await db.query("SELECT * FROM view_users",[])

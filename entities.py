@@ -18,8 +18,10 @@ class ContactUS(BaseModel):
     email: str
     phone: str
     message: str
-    received: datetime.datetime
-
+    received: datetime.datetime | None = None
 class Auth(BaseModel):
     username: str
     password: str
+
+
+# beuatiful city
