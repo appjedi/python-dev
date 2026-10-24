@@ -93,7 +93,15 @@ async def authUser (user:Auth):
     resp=await db.query(qry, values)
     print ("resp:",resp[0])
     return {"status":200,"userId":resp[0][0],"message":resp[0][1] }
-
+@app.get("/api/auth/{un}/{pw}")
+async def getAuthUser (un:str, pw:str):
+    print ("get.authUser called",un,pw)
+    qry="call usp_user_auth (%s,%s)"
+    values = [un, pw]
+    print ("values:",values)
+    resp=await db.query(qry, values)
+    print ("resp:",resp[0])
+    return {"status":200,"userId":resp[0][0],"message":resp[0][1] }
 @app.get("/api/users")
 async def getUsers ():
     results = await db.query("SELECT * FROM view_users",[])
